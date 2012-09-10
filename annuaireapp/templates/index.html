@@ -1,0 +1,82 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!--
+ index.html
+ NewApplication
+
+ Created by You on November 16, 2011.
+ Copyright 2011, Your Company All rights reserved.
+-->
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7, chrome=1" />
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+        <link rel="apple-touch-icon" href="Resources/icon.png" />
+        <link rel="apple-touch-startup-image" href="Resources/default.png" />
+
+        <title>Annuaire de test</title>
+
+        <script type="text/javascript">
+            OBJJ_MAIN_FILE = "{{ url_for('static', filename='main.j') }}";
+        </script>
+
+        <script type="text/javascript" src='{{ url_for("static", filename="Frameworks/Objective-J/Objective-J.js") }}' charset="UTF-8"></script>
+
+				<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+
+  		  <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.3/css/jquery.dataTables.css">
+			  <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.3/css/jquery.dataTables_themeroller.css">
+
+				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+				<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+				<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.3/jquery.dataTables.min.js"></script>
+
+				<!--<script type="text/javascript" src='{{ url_for("static", filename="app.js") }}' charset="UTF-8"></script>-->
+
+        <style type="text/css">
+            body{margin:0; padding:0;}
+            #container {position: absolute; top:50%; left:50%;}
+            #content {width:800px; text-align:center; margin-left: -400px; height:50px; margin-top:-25px; line-height: 50px;}
+            #content {font-family: "Helvetica", "Arial", sans-serif; font-size: 18px; color: black; text-shadow: 0px 1px 0px white; }
+            #loadgraphic {margin-right: 0.2em; margin-bottom:-2px;}
+        </style>
+
+        <!--[if lt IE 7]>
+        <STYLE type="text/css">
+            #container { position: relative; top: 50%; }
+            #content { position: relative;}
+        </STYLE>
+        <![endif]-->
+
+    </head>
+
+    <body>
+			<!--<div id="personsWrapper">
+				<table id="persons">
+					<thead>
+						<tr>
+							<td>Prénom</td>
+							<td>Nom</td>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+			<div id="personForm">
+				<form id="form" method="PUT">
+					<div><input type="hidden" id="id"/></div>
+					<div>Nom: <input type="text" id="nom" name="nom"/></div>
+					<div>Prénom: <input type="text" id="prenom" name="prenom"/></div>
+				</form>
+			</div>-->
+    </body>
+
+</html>
+
