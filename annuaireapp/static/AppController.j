@@ -34,47 +34,47 @@
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
-  var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
-      contentView = [theWindow contentView];
+    var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
+        contentView = [theWindow contentView];
 
 	// create a CPScrollView that will contain the CPTableView
-  //var scrollView = [[CPScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, 600.0, 200.0)];
+    //var scrollView = [[CPScrollView alloc] initWithFrame:CGRectMake(0.0, 10.0, 600.0, 200.0)];
 	var scrollView = [[CPScrollView alloc] initWithFrame:[contentView bounds]];
-  [scrollView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+    [scrollView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
-  // create the CPTableView
-  tableView = [[CPTableView alloc] initWithFrame:[scrollView bounds]];
-  [tableView setDataSource:self];
-	[tableView setDelegate:self];
-  [tableView setUsesAlternatingRowBackgroundColors:YES];
-  
-  // define the header color
-  //var headerColor = [CPColor colorWithPatternImage:[[CPImage alloc] initWithContentsOfFile:[[CPBundle mainBundle] pathForResource:@"button-bezel-center.png"]]];
-  
-  //[[tableView cornerView] setBackgroundColor:headerColor];
-  
-  // add the first column
-  var column = [[CPTableColumn alloc] initWithIdentifier:@"prenom"];
-  [[column headerView] setStringValue:"Prénom"];
-  //[[column headerView] setBackgroundColor:headerColor];
-  //[column setWidth:125.0];
-  [tableView addTableColumn:column];
+    // create the CPTableView
+    tableView = [[CPTableView alloc] initWithFrame:[scrollView bounds]];
+    [tableView setDataSource:self];
+    [tableView setDelegate:self];
+    [tableView setUsesAlternatingRowBackgroundColors:YES];
 
-  // add the second column
-  var column = [[CPTableColumn alloc] initWithIdentifier:@"nom"];
-  [[column headerView] setStringValue:"Nom"];
-  //[[column headerView] setBackgroundColor:headerColor];
-  //[column setWidth:825.0];
-  [tableView addTableColumn:column];
+    // define the header color
+    //var headerColor = [CPColor colorWithPatternImage:[[CPImage alloc] initWithContentsOfFile:[[CPBundle mainBundle] pathForResource:@"button-bezel-center.png"]]];
 
-  // add the third column
-  var column = [[CPTableColumn alloc] initWithIdentifier:@"team"];
-  [[column headerView] setStringValue:"Team"];
-  //[[column headerView] setBackgroundColor:headerColor];
-  //[column setWidth:825.0];
-  [tableView addTableColumn:column];
+    //[[tableView cornerView] setBackgroundColor:headerColor];
 
-  [scrollView setDocumentView:tableView];
+    // add the first column
+    var column = [[CPTableColumn alloc] initWithIdentifier:@"prenom"];
+    [[column headerView] setStringValue:"Prénom"];
+    //[[column headerView] setBackgroundColor:headerColor];
+    //[column setWidth:125.0];
+    [tableView addTableColumn:column];
+
+    // add the second column
+    var column = [[CPTableColumn alloc] initWithIdentifier:@"nom"];
+    [[column headerView] setStringValue:"Nom"];
+    //[[column headerView] setBackgroundColor:headerColor];
+    //[column setWidth:825.0];
+    [tableView addTableColumn:column];
+
+    // add the third column
+    var column = [[CPTableColumn alloc] initWithIdentifier:@"team"];
+    [[column headerView] setStringValue:"Team"];
+    //[[column headerView] setBackgroundColor:headerColor];
+    //[column setWidth:825.0];
+    [tableView addTableColumn:column];
+
+    [scrollView setDocumentView:tableView];
 
 	//create popup
 	popup = [[CPView alloc] initWithFrame:CGRectMake(5.0, 5.0, 300.0, 100.0)];
@@ -82,57 +82,57 @@
 	[popup setBackgroundColor:[CPColor whiteColor]];
 
 	prenom = [[CPTextField alloc] initWithFrame:CGRectMake(0.0, 10.0, 200.0, 30.0)];
-  [prenom setEditable:YES];
-  [prenom setBordered:YES];
-  [prenom setBezeled:YES];
-  [prenom setFont:[CPFont systemFontOfSize:12.0]];
-  [prenom setTarget:self];
-  [popup addSubview:prenom];
+    [prenom setEditable:YES];
+    [prenom setBordered:YES];
+    [prenom setBezeled:YES];
+    [prenom setFont:[CPFont systemFontOfSize:12.0]];
+    [prenom setTarget:self];
+    [popup addSubview:prenom];
 
 	nom = [[CPTextField alloc] initWithFrame:CGRectMake(0.0, 40.0, 200.0, 30.0)];
-  [nom setEditable:YES];
-  [nom setBordered:YES];
-  [nom setBezeled:YES];
-  [nom setFont:[CPFont systemFontOfSize:12.0]];
-  [nom setTarget:self];
-  [popup addSubview:nom];
+    [nom setEditable:YES];
+    [nom setBordered:YES];
+    [nom setBezeled:YES];
+    [nom setFont:[CPFont systemFontOfSize:12.0]];
+    [nom setTarget:self];
+    [popup addSubview:nom];
 
-  /*var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
+    /*var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
 	[label setStringValue:@"Hello World!"];
-  [label setFont:[CPFont boldSystemFontOfSize:24.0]];
-  [label sizeToFit];
-  [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
-  [label setCenter:[popup center]];
-  [popup addSubview:label];*/
+    [label setFont:[CPFont boldSystemFontOfSize:24.0]];
+    [label sizeToFit];
+    [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
+    [label setCenter:[popup center]];
+    [popup addSubview:label];*/
 
 	btnCancel = [[CPButton alloc] initWithFrame: CGRectMake(10, 70, 60, 24)];
 	[btnCancel setTitle:"annuler"];
 	[btnCancel setTarget:self];
 	[btnCancel setAction:@selector(test:)];
-  [popup addSubview:btnCancel];
+    [popup addSubview:btnCancel];
 
 	btnSave = [[CPButton alloc] initWithFrame: CGRectMake(75, 70, 80, 24)];
 	[btnSave setTitle:"enregistrer"];
 	[btnSave setTarget:self];
 	[btnSave setAction:@selector(updatePerson:)];
-  [popup addSubview:btnSave];
+    [popup addSubview:btnSave];
 
 	btnAddToTeam = [[CPButton alloc] initWithFrame: CGRectMake(160, 70, 100, 24)];
 	[btnAddToTeam setTitle:"add to team"];
 	[btnAddToTeam setTarget:self];
 	[btnAddToTeam setAction:@selector(addToTeam:)];
-  [popup addSubview:btnAddToTeam];
+    [popup addSubview:btnAddToTeam];
 
-  //[contentView addSubview:searchField];
-  [contentView addSubview:scrollView];
-  [contentView addSubview:popup];
+    //[contentView addSubview:searchField];
+    [contentView addSubview:scrollView];
+    [contentView addSubview:popup];
 
 	[theWindow orderFront:self];
 }
 
 -(void)updatePerson:(id)sender
 {
-	var request = [CPURLRequest requestWithURL:"/persons/" + [selectedPerson objectForKey:@"id"]];
+	var request = [CPURLRequest requestWithURL:"/persons/" + [selectedPerson objectForKey:@"id"] + "/"];
 	[request setHTTPMethod:@"PUT"];
 	[request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
 	[request setHTTPBody:@"firstName=" + [prenom stringValue] + "&lastName=" + [nom stringValue]];
@@ -150,16 +150,16 @@
 
 - (int)numberOfRowsInTableView:(CPTableView)aTableView
 {
-  return [persons count];
+    return [persons count];
 }
 
 - (id)tableView:(CPTableView)aTableView objectValueForTableColumn:(CPTableColumn)tableColumn row:(int)row
 {
-  if ([tableColumn identifier]===@"prenom")
-    return [persons[row] objectForKey:@"firstname"];
-  else if ([tableColumn identifier]===@"nom")
-  	return [persons[row] objectForKey:@"lastname"];
-  else 
+    if ([tableColumn identifier]===@"prenom")
+        return [persons[row] objectForKey:@"firstname"];
+    else if ([tableColumn identifier]===@"nom")
+  	    return [persons[row] objectForKey:@"lastname"];
+    else 
 	{
 		//the popupmenu
 		/*var popUpButton  = [[CPPopUpButton alloc] initWithFrame: CGRectMake(0, 0, 200.0, 24.0) pullsDown:YES];
@@ -186,7 +186,7 @@
 		[popUpButton setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin];*/
 		//[popUpButton sizeToFit];
 		//[contentView addSubview:popUpButton];
-  	//return [persons[row] objectForKey:@"lastname"];
+  	    //return [persons[row] objectForKey:@"lastname"];
 		//return popUpButton;
 
 		/*var buttonsView = [[CPCollectionView alloc] initWithFrame: CGRectMake(0, 0, 400.0, 25.0)];
@@ -203,22 +203,20 @@
 
 -(void)addToTeam:(id)sender
 {
-	//var request = [CPURLRequest requestWithURL:"/persons/addToTeam/" + [selectedPerson objectForKey:@"id"] + "?idTeam=1"];
-	var request = [CPURLRequest requestWithURL:"/persons/addToTeam/" + [selectedPerson objectForKey:@"id"]];
-	[request setHTTPMethod:@"POST"];
-	[request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
-	[request setHTTPBody:@"idTeam=1"];
-	[[CPURLConnection alloc] initWithRequest:request delegate:self];
+    var request = [CPURLRequest requestWithURL:"/persons/" + [selectedPerson objectForKey:@"id"] + "/teams/1/"];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
+    [[CPURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 -(void)menuDidChangeItem:(CPNotification) notif
 {
-	console.info("menuDidChangeItem");
+    console.info("menuDidChangeItem");
 }
 
 - (void)tableViewSelectionDidChange:(CPNotification *)notif
 {
-  row = [[[notif object] selectedRowIndexes] firstIndex];
+    row = [[[notif object] selectedRowIndexes] firstIndex];
 	selectedPerson = persons[row];
 	[prenom setStringValue:[selectedPerson objectForKey:@"firstname"]];
 	[nom setStringValue:[selectedPerson objectForKey:@"lastname"]];
@@ -227,18 +225,16 @@
 
 - (void)getList
 {
-	var request = [CPURLRequest requestWithURL:"/persons"];
+	var request = [CPURLRequest requestWithURL:"/persons/"];
 	[[CPURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
 {
-	console.info('didReceiveData connection:' + aConnection + ' data:' + data);
-	if (data)
+	var JSONLists = CPJSObjectCreateWithJSON(data);
+	if (JSONLists.persons)
 	{
 		persons = [];
-		var JSONLists = CPJSObjectCreateWithJSON(data);
-		// loop through everything and create a dictionary in place of the JSObject adding it to the array
 		for (var i = 0; i < JSONLists.persons.length; i++)
 		    persons[i] = [CPDictionary dictionaryWithJSObject:JSONLists.persons[i] recursively:YES];
 	 
@@ -246,6 +242,8 @@
 	}
 	else
 	{
+        if (JSONLists.error)
+            alert(JSONLists.error);
 		[self getList]
 	}
 }
