@@ -19,6 +19,9 @@
 	CPTextField prenom;
 	CPTextField nom;
 	var selectedPerson;
+	CPURLConnection getUsersConnection;
+	CPURLConnection updateUserConnection;
+	CPURLConnection manageUserTeamConnection;
 }
 
 - (id)init
@@ -53,25 +56,34 @@
 
     //[[tableView cornerView] setBackgroundColor:headerColor];
 
-    // add the first column
+    var column = [[CPTableColumn alloc] initWithIdentifier:@"id"];
+    [[column headerView] setStringValue:"ID"];
+    //[[column headerView] setBackgroundColor:headerColor];
+    [column setWidth:30.0];
+    [tableView addTableColumn:column];
+
     var column = [[CPTableColumn alloc] initWithIdentifier:@"prenom"];
     [[column headerView] setStringValue:"Prénom"];
     //[[column headerView] setBackgroundColor:headerColor];
     //[column setWidth:125.0];
     [tableView addTableColumn:column];
 
-    // add the second column
     var column = [[CPTableColumn alloc] initWithIdentifier:@"nom"];
     [[column headerView] setStringValue:"Nom"];
     //[[column headerView] setBackgroundColor:headerColor];
     //[column setWidth:825.0];
     [tableView addTableColumn:column];
 
-    // add the third column
+    var column = [[CPTableColumn alloc] initWithIdentifier:@"teams"];
+    [[column headerView] setStringValue:"Teams"];
+    //[[column headerView] setBackgroundColor:headerColor];
+    [column setWidth:300.0];
+    [tableView addTableColumn:column];
+
     var column = [[CPTableColumn alloc] initWithIdentifier:@"team"];
     [[column headerView] setStringValue:"Team"];
     //[[column headerView] setBackgroundColor:headerColor];
-    //[column setWidth:825.0];
+    [column setWidth:130.0];
     [tableView addTableColumn:column];
 
     [scrollView setDocumentView:tableView];
@@ -97,14 +109,6 @@
     [nom setTarget:self];
     [popup addSubview:nom];
 
-    /*var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
-	[label setStringValue:@"Hello World!"];
-    [label setFont:[CPFont boldSystemFontOfSize:24.0]];
-    [label sizeToFit];
-    [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
-    [label setCenter:[popup center]];
-    [popup addSubview:label];*/
-
 	btnCancel = [[CPButton alloc] initWithFrame: CGRectMake(10, 70, 60, 24)];
 	[btnCancel setTitle:"annuler"];
 	[btnCancel setTarget:self];
@@ -117,30 +121,29 @@
 	[btnSave setAction:@selector(updatePerson:)];
     [popup addSubview:btnSave];
 
-	btnAddToTeam = [[CPButton alloc] initWithFrame: CGRectMake(160, 70, 100, 24)];
+	/*btnAddToTeam = [[CPButton alloc] initWithFrame: CGRectMake(160, 70, 100, 24)];
 	[btnAddToTeam setTitle:"add to team"];
 	[btnAddToTeam setTarget:self];
 	[btnAddToTeam setAction:@selector(addToTeam:)];
-    [popup addSubview:btnAddToTeam];
+    [popup addSubview:btnAddToTeam];*/
 
-    //[contentView addSubview:searchField];
     [contentView addSubview:scrollView];
     [contentView addSubview:popup];
 
 	[theWindow orderFront:self];
 }
 
--(void)updatePerson:(id)sender
+- (void)updatePerson:(id)sender
 {
 	var request = [CPURLRequest requestWithURL:"/persons/" + [selectedPerson objectForKey:@"id"] + "/"];
 	[request setHTTPMethod:@"PUT"];
 	[request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
 	[request setHTTPBody:@"firstName=" + [prenom stringValue] + "&lastName=" + [nom stringValue]];
-	[[CPURLConnection alloc] initWithRequest:request delegate:self];
+	updateUserConnection = [[CPURLConnection alloc] initWithRequest:request delegate:self];
 	[popup setHidden:YES];
 }
 
--(void)test:(id)sender
+- (void)test:(id)sender
 {
 	if([popup isHidden])
 		[popup setHidden:NO];
@@ -157,61 +160,78 @@
 {
     if ([tableColumn identifier]===@"prenom")
         return [persons[row] objectForKey:@"firstname"];
+    else if ([tableColumn identifier]===@"id")
+  	    return [persons[row] objectForKey:@"id"];
     else if ([tableColumn identifier]===@"nom")
   	    return [persons[row] objectForKey:@"lastname"];
+    else if ([tableColumn identifier]===@"teams")
+    {
+        var teamNames = "";
+        var teams = [persons[row] objectForKey:@"teams"];
+        for (var i = 0; i < teams.length; i++)
+        {
+            var team = teams[i];
+            var teamName = [team objectForKey:@"name"];
+            teamNames += teamName;
+            if (i < teams.length - 1)
+            {
+                teamNames += " - ";
+            }
+        }
+  	    return teamNames;
+    }
     else 
 	{
-		//the popupmenu
-		/*var popUpButton  = [[CPPopUpButton alloc] initWithFrame: CGRectMake(0, 0, 200.0, 24.0) pullsDown:YES];
-		[[popUpButton menu] setTitle:@"mytitle"];
+	    var personId = [persons[row] objectForKey:@"id"];
+	    
+		var popUpButton  = [[CPPopUpButton alloc] initWithFrame: CGRectMake(0, 0, 200.0, 24.0) pullsDown:YES];
 		[popUpButton setTarget:self];
-		[popUpButton setAction:@selector(doMenu:)];
-		[popUpButton addItemsWithTitles: [CPArray arrayWithObjects:
-				            @"Add to team",
-				            @"Action 1",
-				            @"Action 2",
-				            @"Action 3",
-				            nil]
-		];*/
-		/*var mi = [[CPMenuItem alloc] init];
-		[mi setTitle:"menu1"];
-		[mi setTarget:self];
-		//[mi setAction:@selector(doMenu:)];
-		[popUpButton addItem:mi];
+		
 		var mi = [[CPMenuItem alloc] init];
-		[mi setTitle:"menu2"];
-		[mi setTarget:self];
-		//[mi setAction:@selector(menuDidChangeItem:)];
+		[mi setTitle:@"Manage teams"];
 		[popUpButton addItem:mi];
-		[popUpButton setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin];*/
-		//[popUpButton sizeToFit];
-		//[contentView addSubview:popUpButton];
-  	    //return [persons[row] objectForKey:@"lastname"];
-		//return popUpButton;
-
-		/*var buttonsView = [[CPCollectionView alloc] initWithFrame: CGRectMake(0, 0, 400.0, 25.0)];
-		var b1 = [[CPButton alloc] initWithFrame: CGRectMake(0, 0, 100.0, 24.0)];
-		[b1 setTitle:"team1"];
-		[b1 setTarget:self];
-		[b1 setAction:@selector(doMenu:)];
-		[buttonsView addSubview:b1];
-
-		//[tableColumn setDataView:popUpButton];
-		[tableColumn setDataView:buttonsView];*/
+		
+		var mi = [[CPMenuItem alloc] init];
+		[mi setTag:{row: row, teamId:1}];
+		[mi setTitle:@"Manchester"];
+		[mi setAction:@selector(menuDidChangeItem:)];
+		[popUpButton addItem:mi];
+		
+		var mi = [[CPMenuItem alloc] init];
+		[mi setTag:{row: row, teamId:2}];
+		[mi setTitle:@"Barça"];
+		[mi setAction:@selector(menuDidChangeItem:)];
+		[popUpButton addItem:mi];
+		
+		var mi = [[CPMenuItem alloc] init];
+		[mi setTag:{row: row, teamId:3}];
+		[mi setTitle:@"RCS"];
+		[mi setAction:@selector(menuDidChangeItem:)];
+		[popUpButton addItem:mi];
+		
+		[popUpButton setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin];
+  	    
+  	    [tableColumn setDataView:popUpButton];
 	}
 }
 
--(void)addToTeam:(id)sender
+/*- (void)addToTeam:(id)sender
 {
     var request = [CPURLRequest requestWithURL:"/persons/" + [selectedPerson objectForKey:@"id"] + "/teams/1/"];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
     [[CPURLConnection alloc] initWithRequest:request delegate:self];
-}
+}*/
 
--(void)menuDidChangeItem:(CPNotification) notif
+- (void)menuDidChangeItem:(id)sender
 {
-    console.info("menuDidChangeItem");
+    var clickedItemData = [sender tag];
+    var rowClicked = (clickedItemData.row + 1 === persons.length) ? 0 : clickedItemData.row + 1;
+    var personId = [persons[rowClicked] objectForKey:@"id"];
+    var request = [CPURLRequest requestWithURL:"/persons/" + personId + "/teams/" + clickedItemData.teamId + "/"];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded;" forHTTPHeaderField:@"Content-Type"];
+    manageUserTeamConnection = [[CPURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)tableViewSelectionDidChange:(CPNotification *)notif
@@ -226,36 +246,40 @@
 - (void)getList
 {
 	var request = [CPURLRequest requestWithURL:"/persons/"];
-	[[CPURLConnection alloc] initWithRequest:request delegate:self];
+	getUsersConnection = [[CPURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
 {
 	var JSONLists = CPJSObjectCreateWithJSON(data);
-	if (JSONLists.persons)
+	
+	if (aConnection === getUsersConnection)
 	{
 		persons = [];
 		for (var i = 0; i < JSONLists.persons.length; i++)
+		{
 		    persons[i] = [CPDictionary dictionaryWithJSObject:JSONLists.persons[i] recursively:YES];
+	    }
 	 
-		[tableView reloadData]
+		[tableView reloadData];
 	}
-	else
+	
+	if (aConnection === updateUserConnection)
 	{
         if (JSONLists.error)
             alert(JSONLists.error);
-		[self getList]
+		[self getList];
+	}
+	
+	if (aConnection === manageUserTeamConnection)
+	{
+		[self getList];
 	}
 }
 
 - (void)connection:(CPURLConnection)aConnection didFailWithError:(CPString)error
 {
-    alert(error) ;
-}
-
-- (CPInteger) clickedRow
-{
-	console.info(1)
+    alert(error);
 }
 
 @end

@@ -238,8 +238,12 @@ def addToTeam(idPerson, idTeam):
 
     if team is None:
         return error(404, "team not found")
-
-    person.teams.append(team)
+    
+    if team in person.teams:
+        person.teams.remove(team)
+    else:
+        person.teams.append(team)
+    
     session.commit()
 
     return success("{}")

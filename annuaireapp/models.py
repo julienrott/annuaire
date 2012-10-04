@@ -31,6 +31,10 @@ class Person(BaseEntity):
         my_dict['firstname']    = self.firstname
         my_dict['lastname']     = self.lastname
         my_dict['localisation'] = self.localisation.to_dict()
+        teams = []
+        for team in self.teams:
+            teams.append(team.to_dict())
+        my_dict['teams']        = teams
 
         return my_dict
 
@@ -41,6 +45,13 @@ class Team(BaseEntity):
     name            = Field(Unicode(50), required=True)
     leader          = ManyToOne('Person')
     persons         = ManyToMany('Person')
+    
+    def to_dict(self):
+        my_dict = {}
+        my_dict['id']   = self.id
+        my_dict['name'] = self.name
+
+        return my_dict
 
 class Localisation(BaseEntity):
     """
